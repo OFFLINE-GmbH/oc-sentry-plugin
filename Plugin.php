@@ -18,10 +18,6 @@ class Plugin extends PluginBase
      */
     public function register()
     {
-        $this->app->singleton(
-            \Illuminate\Contracts\Debug\ExceptionHandler::class,
-            \OFFLINE\Sentry\Classes\ExceptionHandler::class
-        );
         class_alias(\Sentry\SentryLaravel\SentryFacade::class, 'Sentry');
     }
 
@@ -35,6 +31,11 @@ class Plugin extends PluginBase
         $this->registerSentrySettings();
         $this->rebindSentryWithCustomConfiguration();
         $this->registerSentryEvents();
+
+        $this->app->singleton(
+            \Illuminate\Contracts\Debug\ExceptionHandler::class,
+            \OFFLINE\Sentry\Classes\ExceptionHandler::class
+        );
     }
 
     /**
