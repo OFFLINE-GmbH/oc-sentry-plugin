@@ -11,7 +11,7 @@ class ExceptionHandler extends \October\Rain\Foundation\Exception\Handler
 {
     public function report(\Exception $exception)
     {
-        if (app()->bound('sentry') && $this->shouldReport($exception)) {
+        if ($this->reportToSentry($exception)) {
             /** @var \Illuminate\Foundation\Application $app */
             $app = app();
             /** @var \Raven_Client $sentry */
@@ -29,6 +29,20 @@ class ExceptionHandler extends \October\Rain\Foundation\Exception\Handler
         }
 
         parent::report($exception);
+    }
+
+    /**
+     * Check if this exception should be reported to Sentry.
+     *
+     * @param \Exception $exception
+     *
+     * @return bool
+     */
+    protected function reportToSentry(\Exception $exception)
+    {
+        return app()->bound('sentry')
+            && $this->shouldReport($exception)
+            && config('app.debug') !== true;
     }
 
     /**
