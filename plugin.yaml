@@ -1,0 +1,6 @@
+plugin:
+    name: 'offline.sentry::lang.plugin.name'
+    description: 'offline.sentry::lang.plugin.description'
+    author: OFFLINE
+    icon: oc-icon-bug
+    homepage: ''
