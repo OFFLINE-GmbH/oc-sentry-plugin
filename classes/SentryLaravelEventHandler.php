@@ -1,6 +1,6 @@
 <?php
-
 namespace OFFLINE\Sentry\Classes;
+
 use Exception;
 use Raven_Client;
 use Illuminate\Routing\Route;
@@ -12,6 +12,7 @@ use Illuminate\Database\Events\QueryExecuted;
 
 /**
  * Class SentryLaravelEventHandler
+ *
  * @see https://github.com/getsentry/sentry-laravel/blob/master/src/Sentry/SentryLaravel/SentryLaravelEventHandler.php
  * @package OFFLINE\Sentry\Classes
  */
@@ -30,6 +31,7 @@ class SentryLaravelEventHandler
         'illuminate.log' => 'log',           // Until Laravel 5.3
         'Illuminate\Log\Events\MessageLogged' => 'messageLogged', // Since Laravel 5.4
     );
+
     /**
      * Maps authentication event handler function to event names.
      *
@@ -38,18 +40,21 @@ class SentryLaravelEventHandler
     protected static $authEventHandlerMap = array(
         'Illuminate\Auth\Events\Authenticated' => 'authenticated', // Since Laravel 5.3
     );
+
     /**
      * Sentry client.
      *
      * @var Raven_Client
      */
     protected $client;
+
     /**
      * Indicates if we should we add query bindings to the breadcrumbs.
      *
      * @var bool
      */
     private $sqlBindings;
+
     /**
      * SentryLaravelEventHandler constructor.
      *
@@ -61,6 +66,7 @@ class SentryLaravelEventHandler
         $this->client = $client;
         $this->sqlBindings = isset($config['breadcrumbs.sql_bindings']) ? $config['breadcrumbs.sql_bindings'] === true : true;
     }
+
     /**
      * Attach all event handlers.
      *
@@ -72,6 +78,7 @@ class SentryLaravelEventHandler
             $events->listen($eventName, array($this, $handler));
         }
     }
+
     /**
      * Attach all authentication event handlers.
      *
@@ -83,6 +90,7 @@ class SentryLaravelEventHandler
             $events->listen($eventName, array($this, $handler));
         }
     }
+
     /**
      * Pass through the event and capture any errors.
      *
@@ -97,6 +105,7 @@ class SentryLaravelEventHandler
             // Ignore
         }
     }
+
     /**
      * Record the event with default values.
      *
@@ -109,6 +118,7 @@ class SentryLaravelEventHandler
             'level' => 'info',
         ), $payload));
     }
+
     /**
      * Until Laravel 5.1
      *
@@ -129,6 +139,7 @@ class SentryLaravelEventHandler
         }
         $this->client->transaction->push($routeName);
     }
+
     /**
      * Since Laravel 5.2
      *
@@ -138,6 +149,7 @@ class SentryLaravelEventHandler
     {
         $this->routerMatchedHandler($match->route);
     }
+
     /**
      * Until Laravel 5.1
      *
@@ -158,6 +170,7 @@ class SentryLaravelEventHandler
             'data' => $data,
         ));
     }
+
     /**
      * Since Laravel 5.2
      *
@@ -175,6 +188,7 @@ class SentryLaravelEventHandler
             'data' => $data,
         ));
     }
+
     /**
      * Until Laravel 5.3
      *
@@ -191,6 +205,7 @@ class SentryLaravelEventHandler
             'level' => $level,
         ));
     }
+
     /**
      * Since Laravel 5.4
      *
@@ -205,6 +220,7 @@ class SentryLaravelEventHandler
             'level' => $logEntry->level,
         ));
     }
+    
     /**
      * Since Laravel 5.3
      *
