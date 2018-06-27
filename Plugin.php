@@ -1,16 +1,17 @@
 <?php namespace OFFLINE\Sentry;
 
 use App;
-use OFFLINE\Sentry\Classes\SentryContextMiddleware;
+use OFFLINE\Sentry\Classes\SentryLaravelEventHandler;
 use OFFLINE\Sentry\Models\Settings;
-use Sentry\SentryLaravel\SentryLaravel;
-use Sentry\SentryLaravel\SentryLaravelEventHandler;
-use Sentry\SentryLaravel\SentryLaravelServiceProvider;
 use System\Classes\PluginBase;
+use System\Classes\PluginManager;
 use System\Classes\SettingsManager;
+use System\Models\PluginVersion;
 
 class Plugin extends PluginBase
 {
+    public static $identifier = 'OFFLINE.Sentry';
+
     /**
      * Register the Sentry specific ExceptionHandler class.
      *
@@ -18,7 +19,7 @@ class Plugin extends PluginBase
      */
     public function register()
     {
-        class_alias(\Sentry\SentryLaravel\SentryFacade::class, 'Sentry');
+        class_alias(\OFFLINE\Sentry\Classes\SentryFacade::class, 'Sentry');
     }
 
     /**
@@ -96,16 +97,21 @@ class Plugin extends PluginBase
      */
     protected function rebindSentryWithCustomConfiguration()
     {
-        $this->app->singleton(SentryLaravelServiceProvider::$abstract, function ($app) {
-            $userConfig = $app['sentry.config'];
-            $basePath   = base_path();
-
-            return SentryLaravel::getClient(array_merge([
+        $this->app->singleton('sentry', function ($app) {
+            $pluginVersion = PluginVersion::getVersion(self::$identifier) ?: 'unknown';
+            $basePath      = base_path();
+            $config        = [
                 'environment'        => $app->environment(),
                 'prefixes'           => [$basePath],
                 'app_path'           => $basePath,
                 'excluded_app_paths' => [$basePath . '/vendor'],
-            ], $userConfig));
+                'sdk'                => [
+                    'name'    => self::$identifier,
+                    'version' => $pluginVersion,
+                ],
+            ];
+
+            return new \Raven_Client(array_merge($config, $app['sentry.config']));
         });
     }
 

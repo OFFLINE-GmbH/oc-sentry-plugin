@@ -19,7 +19,8 @@ class Settings extends Model
             'excluded_exceptions' => [],
         ];
 
-        $settings = self::where('item', 'offline_sentry_settings')->first(['value'])->toArray();
+        $settings = self::where('item', 'offline_sentry_settings')->first(['value']);
+        $settings = $settings ? $settings->toArray() : [];
         unset($settings['value']);
 
         return array_filter(array_merge($defaults, $settings));
