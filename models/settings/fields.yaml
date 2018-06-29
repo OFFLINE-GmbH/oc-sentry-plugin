@@ -23,3 +23,8 @@ fields:
         type: taglist
         mode: array
         comment: 'Add Exception that should not be reported to Sentry, ie. Vendor\Plugin\Exceptions\CustomException'
+    ignore_debug_mode:
+        label: 'Log with debug mode enabled'
+        span: auto
+        type: switch
+        comment: 'By default no errors are reported to Sentry when APP_DEBUG is true. Enable this switch to always report errors to Sentry'

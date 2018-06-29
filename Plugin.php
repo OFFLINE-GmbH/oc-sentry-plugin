@@ -33,10 +33,12 @@ class Plugin extends PluginBase
         $this->rebindSentryWithCustomConfiguration();
         $this->registerSentryEvents();
 
-        $this->app->singleton(
-            \Illuminate\Contracts\Debug\ExceptionHandler::class,
-            \OFFLINE\Sentry\Classes\ExceptionHandler::class
-        );
+        if ($this->useSentryExceptionHandler()) {
+            $this->app->singleton(
+                \Illuminate\Contracts\Debug\ExceptionHandler::class,
+                \OFFLINE\Sentry\Classes\ExceptionHandler::class
+            );
+        }
     }
 
     /**
@@ -124,5 +126,25 @@ class Plugin extends PluginBase
     {
         $handler = new SentryLaravelEventHandler($this->app['sentry'], $this->app['sentry.config']);
         $handler->subscribe($this->app->events);
+    }
+
+    /**
+     * Check if the Sentry ExceptionHandler should be used.
+     *
+     * @return bool
+     */
+    protected function useSentryExceptionHandler()
+    {
+        return config('app.debug') !== true || $this->ignoreDebugMode();
+    }
+
+    /**
+     * Check if Exceptions should even with debug mode enabled should be reported.
+     *
+     * @return bool
+     */
+    protected function ignoreDebugMode()
+    {
+        return (bool)Settings::get('ignore_debug_mode', false);
     }
 }

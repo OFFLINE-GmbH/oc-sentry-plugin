@@ -40,9 +40,7 @@ class ExceptionHandler extends \October\Rain\Foundation\Exception\Handler
      */
     protected function reportToSentry(\Exception $exception)
     {
-        return app()->bound('sentry')
-            && $this->shouldReport($exception)
-            && config('app.debug') !== true;
+        return app()->bound('sentry') && $this->shouldReport($exception);
     }
 
     /**
