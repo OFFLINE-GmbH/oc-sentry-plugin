@@ -1,5 +1,5 @@
 {
-    "name": "OFFLINE-GmbH/oc-sentry-plugin",
+    "name": "OFFLINE/oc-sentry-plugin",
     "type": "october-plugin",
     "description": "Sentry integration for October CMS",
     "keywords": [
