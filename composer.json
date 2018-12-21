@@ -1,5 +1,17 @@
 {
+    "name": "offline/oc-sentry-plugin",
+    "type": "october-plugin",
+    "description": "Sentry integration for October CMS",
+    "keywords": [
+        "october",
+        "octobercms",
+        "sentry"
+    ],
+    "license": "MIT",
     "require": {
+        "php": ">=5.5.9",
+        "composer/installers": "~1.0",
         "sentry/sentry": "^1.9"
-    }
+    },
+    "minimum-stability": "dev"
 }
