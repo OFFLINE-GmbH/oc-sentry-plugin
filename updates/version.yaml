@@ -2,3 +2,5 @@
     - Initial release.
 1.0.2:
     - Added option to ignore debug mode
+1.0.3:
+    - Updated sentry/sentry to 1.10.0
