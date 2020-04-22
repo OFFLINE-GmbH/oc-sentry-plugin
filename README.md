@@ -11,8 +11,11 @@ This plugin is also available on October's marketplace: https://octobercms.com/p
 Use the following syntax to send custom messages to your Sentry logs.
 
 ```php
-$context = [
-    'custom' => ['key' => 'value'],
-];
-\Sentry::captureMessage('Your message', $context);
+\Sentry\withScope(function (\Sentry\State\Scope $scope): void {
+    $scope->setExtras([
+        'custom' => 'value'
+    ]);
+
+    \Sentry\captureMessage('Something happened!');
+});
 ```
