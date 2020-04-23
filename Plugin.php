@@ -128,50 +128,50 @@ class Plugin extends PluginBase
             return $clientBuilder;
         });
 
-        $this->app->singleton('sentry', function () {
-            /** @var \Sentry\ClientBuilderInterface $clientBuilder */
-            $clientBuilder = $this->app->make(ClientBuilderInterface::class);
+        /** @var \Sentry\ClientBuilderInterface $clientBuilder */
+        $clientBuilder = $this->app->make(ClientBuilderInterface::class);
 
-            $options = $clientBuilder->getOptions();
+        $options = $clientBuilder->getOptions();
 
-            $options->setIntegrations(static function (array $integrations) use ($options) {
+        $options->setIntegrations(static function (array $integrations) use ($options) {
 
-                $integrations[] = new Integration();
+            $integrations[] = new Integration();
 
-                if ( ! $options->hasDefaultIntegrations()) {
-                    return $integrations;
-                }
+            if ( ! $options->hasDefaultIntegrations()) {
+                return $integrations;
+            }
 
-                // Remove the default error and fatal exception listeners to let Laravel handle those
-                // itself. These event are still bubbling up through the documented changes in the users
-                // `ExceptionHandler` of their application or through the log channel integration to Sentry
-                return array_filter($integrations,
-                    static function (SdkIntegration\IntegrationInterface $integration): bool {
-                        if ($integration instanceof SdkIntegration\ErrorListenerIntegration) {
-                            return false;
-                        }
+            // Remove the default error and fatal exception listeners to let Laravel handle those
+            // itself. These event are still bubbling up through the documented changes in the users
+            // `ExceptionHandler` of their application or through the log channel integration to Sentry
+            return array_filter($integrations,
+                static function (SdkIntegration\IntegrationInterface $integration): bool {
+                    if ($integration instanceof SdkIntegration\ErrorListenerIntegration) {
+                        return false;
+                    }
 
-                        if ($integration instanceof SdkIntegration\ExceptionListenerIntegration) {
-                            return false;
-                        }
+                    if ($integration instanceof SdkIntegration\ExceptionListenerIntegration) {
+                        return false;
+                    }
 
-                        if ($integration instanceof SdkIntegration\FatalErrorListenerIntegration) {
-                            return false;
-                        }
+                    if ($integration instanceof SdkIntegration\FatalErrorListenerIntegration) {
+                        return false;
+                    }
 
-                        return true;
-                    });
-            });
+                    return true;
+                });
+        });
 
-            $hub = new Hub($clientBuilder->getClient());
-            $hub->configureScope(function (Scope $scope) {
-                if ($hostname = Settings::get('name')) {
-                    $scope->setTag('hostname', $hostname);
-                }
-            });
+        $hub = new Hub($clientBuilder->getClient());
+        $hub->configureScope(function (Scope $scope) {
+            if ($hostname = Settings::get('name')) {
+                $scope->setTag('hostname', $hostname);
+            }
+        });
 
-            SentrySdk::setCurrentHub($hub);
+        SentrySdk::setCurrentHub($hub);
 
+        $this->app->singleton('sentry', function () use ($hub) {
             return $hub;
         });
 

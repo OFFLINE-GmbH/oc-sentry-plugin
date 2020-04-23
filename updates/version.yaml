@@ -6,3 +6,5 @@
     - Updated sentry/sentry to 1.10.0
 2.0.0:
     - !!! Updated to Sentry 2.0, improved PHP 7.4 support. If you use the `Sentry::captureMessage` method, make sure to upgrade it to the syntax shown in this plugin's README.
+2.0.1:
+    - Made Sentry configuration global, so captureMessage calls are correctly sent
