@@ -111,7 +111,13 @@ class Plugin extends PluginBase
     {
         $this->app->bind(ClientBuilderInterface::class, function () {
             $basePath = base_path();
-            $pluginVersion = PluginVersion::getVersion(self::$identifier) ?: 'unknown';
+	    $pluginVersion = 'unknown';
+            try {
+                $pluginVersion = PluginVersion::getVersion(self::$identifier) ?: 'unknown';
+            } catch (\Throwable $exception) {
+                // depending on the context the database connection might not be available yet
+                // in this case we don't care about the plugin version.
+            }
             $options = [
                 'environment' => $this->app->environment(),
                 'prefixes' => [$basePath],
