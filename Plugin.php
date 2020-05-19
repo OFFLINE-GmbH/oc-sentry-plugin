@@ -1,6 +1,6 @@
 <?php namespace OFFLINE\Sentry;
 
-use App;
+use Block;
 use OFFLINE\Sentry\Classes\Context;
 use OFFLINE\Sentry\Classes\SentryLaravelEventHandler;
 use OFFLINE\Sentry\Models\Settings;
@@ -15,10 +15,11 @@ use Sentry\State\Scope;
 use System\Classes\PluginBase;
 use System\Classes\SettingsManager;
 use System\Models\PluginVersion;
+use System\Traits\ViewMaker;
 
 class Plugin extends PluginBase
 {
-    use Context;
+    use Context, ViewMaker;
 
     public static $identifier = 'OFFLINE.Sentry';
 
@@ -49,6 +50,11 @@ class Plugin extends PluginBase
         $this->registerSentrySettings();
         $this->rebindSentryWithCustomConfiguration();
         $this->registerSentryEvents();
+
+        // Install backend error tracking.
+        Block::set('head', $this->makePartial('$/offline/sentry/views/backend_tracking.htm',[
+            'dsn' => Settings::get('dsn')
+        ]));
     }
 
     /**

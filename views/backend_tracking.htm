@@ -1,0 +1,11 @@
+<?php if ($dsn): ?>
+<script>
+    function initSentry() {
+        Sentry.init({dsn: '<?= e($dsn) ?>'})
+        console.log('[OFFLINE.Sentry] Enabled backend error tracking')
+    }
+</script>
+<script src="/plugins/offline/sentry/assets/sentry.5.15.5.min.js" onload="initSentry()"></script>
+<?php else: ?>
+<script> console.log('[OFFLINE.Sentry] No DSN configured. Cannot track backend JS errors');</script>
+<?php endif; ?>
