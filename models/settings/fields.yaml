@@ -28,3 +28,8 @@ fields:
         span: auto
         type: switch
         comment: 'By default no errors are reported to Sentry when APP_DEBUG is true. Enable this switch to always report errors to Sentry'
+    log_backend_errors:
+        label: 'Log backend JavaScript errors'
+        span: auto
+        type: switch
+        comment: 'Logs any JavaScript errors that occur in the backend'

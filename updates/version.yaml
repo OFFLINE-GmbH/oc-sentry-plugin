@@ -9,4 +9,6 @@
 2.0.1:
     - Made Sentry configuration global, so captureMessage calls are correctly sent
 2.1.0:
-    - Added backend error tracking 
+    - Added backend error tracking
+2.1.1:
+    - Made backend error tracking opt-in

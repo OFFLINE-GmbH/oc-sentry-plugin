@@ -51,10 +51,12 @@ class Plugin extends PluginBase
         $this->rebindSentryWithCustomConfiguration();
         $this->registerSentryEvents();
 
-        // Install backend error tracking.
-        Block::set('head', $this->makePartial('$/offline/sentry/views/backend_tracking.htm',[
-            'dsn' => Settings::get('dsn')
-        ]));
+        if (Settings::get('log_backend_errors', false)) {
+            // Install backend error tracking.
+            Block::set('head', $this->makePartial('$/offline/sentry/views/backend_tracking.htm', [
+                'dsn' => Settings::get('dsn')
+            ]));
+        }
     }
 
     /**
