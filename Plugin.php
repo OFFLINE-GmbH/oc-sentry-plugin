@@ -51,11 +51,15 @@ class Plugin extends PluginBase
         $this->rebindSentryWithCustomConfiguration();
         $this->registerSentryEvents();
 
-        if (Settings::get('log_backend_errors', false)) {
-            // Install backend error tracking.
-            Block::set('head', $this->makePartial('$/offline/sentry/views/backend_tracking.htm', [
-                'dsn' => Settings::get('dsn')
-            ]));
+        try {
+            if (Settings::get('log_backend_errors', false)) {
+                // Install backend error tracking.
+                Block::set('head', $this->makePartial('$/offline/sentry/views/backend_tracking.htm', [
+                    'dsn' => Settings::get('dsn')
+                ]));
+            }
+        } catch (\Throwable $e) {
+            // Database has not been seeded yet.
         }
     }
 
@@ -104,7 +108,11 @@ class Plugin extends PluginBase
     protected function registerSentrySettings()
     {
         $this->app->singleton('sentry.config', function () {
-            return Settings::getConfigArray();
+            try {
+                return Settings::getConfigArray();
+            } catch (\Throwable $e) {
+                return [];
+            }
         });
     }
 
