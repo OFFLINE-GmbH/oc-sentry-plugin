@@ -12,3 +12,5 @@
     - Added backend error tracking
 2.1.1:
     - Made backend error tracking opt-in
+2.1.2:
+    - "Updated Sentry Client, adds support for PHP 8"
