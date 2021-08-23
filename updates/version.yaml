@@ -16,3 +16,5 @@
     - "Updated Sentry Client, adds support for PHP 8"
 2.1.3:
     - "Fixed Composer version constraints for PHP 8"
+2.1.4:
+    - "Optimized October 2 compatibility"

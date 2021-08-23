@@ -220,6 +220,11 @@ class Plugin extends PluginBase
      */
     protected function ignoreDebugMode()
     {
-        return (bool)Settings::get('ignore_debug_mode', false);
+	try {
+            return (bool)Settings::get('ignore_debug_mode', false);
+	} catch (\Throwable $e) {
+	    // If the database hat not been seeded yet, return the default value.
+            return false;
+	}
     }
 }
