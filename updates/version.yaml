@@ -14,3 +14,5 @@
     - Made backend error tracking opt-in
 2.1.2:
     - "Updated Sentry Client, adds support for PHP 8"
+2.1.3:
+    - "Fixed Composer version constraints for PHP 8"
