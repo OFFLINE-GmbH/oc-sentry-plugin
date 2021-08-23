@@ -18,3 +18,5 @@
     - "Fixed Composer version constraints for PHP 8"
 2.1.4:
     - "Optimized October 2 compatibility"
+2.1.5:
+    - "Optimized October 2 compatibility"
