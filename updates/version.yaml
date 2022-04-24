@@ -22,3 +22,5 @@
     - "Optimized October 2 compatibility"
 2.1.6:
     - "Optimized startup behaviour if database is not present yet"
+2.1.7:
+    - "Update to latest Sentry Client"
