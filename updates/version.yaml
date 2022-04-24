@@ -24,3 +24,5 @@
     - "Optimized startup behaviour if database is not present yet"
 2.1.7:
     - "Update to latest Sentry Client"
+2.1.8:
+    - "Changed PHP version constraint to be in line with sentry/laravel-sentry"
