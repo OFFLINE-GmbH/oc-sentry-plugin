@@ -30,7 +30,9 @@ class Plugin extends PluginBase
      */
     public function register()
     {
-        class_alias(\OFFLINE\Sentry\Classes\SentryFacade::class, 'Sentry');
+        if (class_exists('Sentry') === false) {
+            class_alias(\OFFLINE\Sentry\Classes\SentryFacade::class, 'Sentry');
+        }
     }
 
     /**
