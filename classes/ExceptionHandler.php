@@ -9,7 +9,7 @@ class ExceptionHandler extends \October\Rain\Foundation\Exception\Handler
 {
     use Context;
 
-    public function report(\Exception $exception)
+    public function report(\Throwable $exception)
     {
         if ($this->reportToSentry($exception)) {
             /** @var \Illuminate\Foundation\Application $app */
@@ -35,11 +35,11 @@ class ExceptionHandler extends \October\Rain\Foundation\Exception\Handler
     /**
      * Check if this exception should be reported to Sentry.
      *
-     * @param \Exception $exception
+     * @param \Throwable $exception
      *
      * @return bool
      */
-    protected function reportToSentry(\Exception $exception)
+    protected function reportToSentry(\Throwable $exception)
     {
         return app()->bound('sentry') && $this->shouldReport($exception);
     }
