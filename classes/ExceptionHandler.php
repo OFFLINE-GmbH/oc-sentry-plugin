@@ -2,6 +2,7 @@
 
 namespace OFFLINE\Sentry\Classes;
 
+use OFFLINE\Sentry\Models\Settings;
 use Sentry\State\HubInterface;
 use Sentry\State\Scope;
 
@@ -42,6 +43,24 @@ class ExceptionHandler extends \October\Rain\Foundation\Exception\Handler
     protected function reportToSentry(\Throwable $exception)
     {
         return app()->bound('sentry') && $this->shouldReport($exception);
+    }
+
+
+    /**
+     * Determine if the exception is in the "do not report" list.
+     *
+     * @param  \Throwable  $e
+     * @return bool
+     */
+    protected function shouldntReport(\Throwable $e)
+    {
+        $excluded = Settings::get('excluded_exceptions', []);
+
+        if (in_array(get_class($e), $excluded, true)) {
+            return true;
+        }
+
+        return parent::shouldntReport($e);
     }
 
 }
