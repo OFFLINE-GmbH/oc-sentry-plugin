@@ -30,3 +30,5 @@
     - "Fixed changelog entry"
 2.1.12:
     - "Fixed compatibility with October 3"
+2.1.13:
+    - "Fixed ignored exception functionality"
