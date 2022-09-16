@@ -54,7 +54,7 @@ class ExceptionHandler extends \October\Rain\Foundation\Exception\Handler
      */
     protected function shouldntReport(\Throwable $e)
     {
-        $excluded = Settings::get('excluded_exceptions', []);
+        $excluded = (array)Settings::get('excluded_exceptions', []);
 
         if (in_array(get_class($e), $excluded, true)) {
             return true;
