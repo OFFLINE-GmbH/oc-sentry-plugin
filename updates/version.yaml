@@ -32,3 +32,5 @@
     - "Fixed compatibility with October 3"
 2.1.13:
     - "Fixed ignored exception functionality"
+2.1.14:
+    - "Bump packagist version"
