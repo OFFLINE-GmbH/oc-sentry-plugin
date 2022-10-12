@@ -34,3 +34,5 @@
     - "Fixed ignored exception functionality"
 2.1.14:
     - "Bump packagist version"
+2.1.15:
+    - "Optimized exception handling (no longer send 404 errors originating from Twig to Sentry)"

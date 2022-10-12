@@ -1,7 +1,9 @@
 <?php namespace OFFLINE\Sentry;
 
 use Block;
+use Event;
 use OFFLINE\Sentry\Classes\Context;
+use OFFLINE\Sentry\Classes\ExceptionReporter;
 use OFFLINE\Sentry\Classes\SentryLaravelEventHandler;
 use OFFLINE\Sentry\Models\Settings;
 use Sentry\ClientBuilder;
@@ -43,10 +45,9 @@ class Plugin extends PluginBase
     public function boot()
     {
         if ($this->useSentryExceptionHandler()) {
-            $this->app->singleton(
-                \Illuminate\Contracts\Debug\ExceptionHandler::class,
-                \OFFLINE\Sentry\Classes\ExceptionHandler::class
-            );
+            Event::listen('exception.report', function (\Throwable $exception) {
+                (new ExceptionReporter($this->app))->captureException($exception);
+            });
         }
 
         $this->registerSentrySettings();
