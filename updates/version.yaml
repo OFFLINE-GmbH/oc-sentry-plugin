@@ -36,3 +36,5 @@
     - "Bump packagist version"
 2.1.15:
     - "Optimized exception handling (no longer send 404 errors originating from Twig to Sentry)"
+3.0.0:
+    - "!!! Complete rewrite of the plugin, please read the README.md file for more information."
