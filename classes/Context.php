@@ -11,32 +11,28 @@ trait Context
 {
     /**
      * Returns the logged in backend user.
-     *
-     * @return array
      */
-    protected function getBackendUser(): array
+    protected function getBackendUser()
     {
         if (BackendAuth::check()) {
             return BackendAuth::getUser()->toArray() + ['user_type' => 'backend'];
         }
 
-        return ['id' => null];
+        return null;
     }
 
     /**
      * Returns the logged in rainlab.user.
-     *
-     * @return array
      */
-    protected function getFrontendUser(): array
+    protected function getFrontendUser()
     {
         if ($this->rainlabUserInstalled()) {
             $user = Auth::getUser();
 
-            return $user ? $user->toArray() + ['user_type' => 'RainLab.User'] : [];
+            return $user ? $user->toArray() + ['user_type' => 'RainLab.User'] : null;
         }
 
-        return ['id' => null];
+        return null;
     }
 
     /**
