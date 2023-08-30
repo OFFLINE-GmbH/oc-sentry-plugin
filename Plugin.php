@@ -31,10 +31,10 @@ class Plugin extends PluginBase
             $sentry = $this->app->get('sentry');
 
             $sentry->configureScope(function (Scope $scope) {
-
                 if ($user = $this->getBackendUser()) {
                     $scope->setUser($user);
                 }
+
                 if ($frontendUser = $this->getFrontendUser()) {
                     $scope->setExtra('RainLab.User', $frontendUser);
                 }
