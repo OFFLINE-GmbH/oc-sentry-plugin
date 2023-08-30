@@ -6,6 +6,7 @@ namespace OFFLINE\Sentry\Classes;
 
 use Backend\Facades\BackendAuth;
 use System\Classes\PluginManager;
+use Auth;
 
 trait Context
 {
