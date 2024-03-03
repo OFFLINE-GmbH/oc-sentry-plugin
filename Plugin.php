@@ -1,6 +1,6 @@
 <?php namespace OFFLINE\Sentry;
 
-use Illuminate\Contracts\Debug\ExceptionHandler;
+use Event;
 use Illuminate\Support\Facades\App;
 use OFFLINE\Sentry\Classes\Context;
 use Sentry\State\Hub;
@@ -14,15 +14,13 @@ class Plugin extends PluginBase
 
     public function register()
     {
-        $config = config('sentry');
+        Event::listen('exception.report', function (\Exception $e) {
+            $config = config('sentry');
 
-        if (!array_get($config, 'environment')) {
-            $config['environment'] = App::environment();
-        }
+            if (!array_get($config, 'environment')) {
+                $config['environment'] = App::environment();
+            }
 
-        $handler = $this->app->make(ExceptionHandler::class);
-
-        $handler->reportable(function (\Throwable $e) {
             if (!$this->app->bound('sentry')) {
                 return;
             }
