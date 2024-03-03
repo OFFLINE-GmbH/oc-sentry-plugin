@@ -40,3 +40,5 @@
     - "!!! Complete rewrite of the plugin, please read the README.md file for more information."
 3.0.1:
     - "Added missing import"
+3.0.2:
+    - "Fixed reporting of backend issues (thanks to @vojtasvoboda)"
