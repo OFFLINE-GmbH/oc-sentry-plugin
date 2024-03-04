@@ -14,15 +14,15 @@ class Plugin extends PluginBase
 
     public function register()
     {
-        Event::listen('exception.report', function (\Exception $e) {
+        Event::listen('exception.report', function (\Throwable $e) {
+            if (!$this->app->bound('sentry')) {
+                return;
+            }
+
             $config = config('sentry');
 
             if (!array_get($config, 'environment')) {
                 $config['environment'] = App::environment();
-            }
-
-            if (!$this->app->bound('sentry')) {
-                return;
             }
 
             /** @var Hub $sentry */
