@@ -44,3 +44,5 @@
     - "Fixed reporting of backend issues (thanks to @vojtasvoboda)"
 3.0.3:
     - "Bugfix"
+3.1.0:
+    - "Updated Sentry Client Version"
