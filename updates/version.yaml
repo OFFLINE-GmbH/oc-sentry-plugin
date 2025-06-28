@@ -46,3 +46,5 @@
     - "Bugfix"
 3.1.0:
     - "Updated Sentry Client Version"
+3.1.1:
+    - "Fixed plugin description (thanks to @vojtasvoboda)"
